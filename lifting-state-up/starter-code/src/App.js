@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import contacts from './contacts.json';
-import ContactList from './ContactList';
 import './App.css';
+import ContactList from './ContactList';
+import SearchField from './SearchField';
 
 class App extends Component {
   // initial state
@@ -10,9 +11,18 @@ class App extends Component {
     query: ''
   };
 
+  setQuery = queryParam => {
+    this.setState({
+      query: queryParam
+    })
+  }
+
+
   deleteContact = contactId => {
     this.setState((state) => ({
-      contacts: state.contacts.filter(contact => { contact.id !== contactId })
+      contacts: state.contacts.filter(contact => {
+        return contact.id !== contactId;
+      })
     }));
   };
 
@@ -23,18 +33,16 @@ class App extends Component {
     if (this.state.contacts.find(contact => contact.id === random.id)) {
       // checking if we have not yet added all the contacts
       if (this.state.contacts.length < contacts.length) {
+        // try again with another random contact
         this.addContact();
       }
+      // don't do anything 
       return;
     }
 
-    // create a shallow copy
-    // const newContacts = [...this.state.contacts];
-    // newContacts.unshift(random);
-
-    this.setState({
-      contacts: [random, ...this.state.contacts]
-    });
+    this.setState((state) => ({
+      contacts: [random, ...state.contacts]
+    }));
   };
 
   sortByName = () => {
@@ -65,7 +73,16 @@ class App extends Component {
         <button onClick={this.sortByName}>Sort by name</button>
         <button onClick={this.sortByPopularity}>Sort by popularity</button>
 
-        <ContactList contacts={this.state.contacts} />
+        <SearchField
+          query={this.state.query}
+          setQueryProp={this.setQuery}
+        />
+
+        <ContactList
+          contacts={this.state.contacts}
+          deleteContactProp={this.deleteContact}
+          query={this.state.query}
+        />
 
       </div>
     );
