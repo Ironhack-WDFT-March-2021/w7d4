@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import contacts from './contacts.json';
+import ContactList from './ContactList';
 import './App.css';
 
 class App extends Component {
@@ -64,40 +65,7 @@ class App extends Component {
         <button onClick={this.sortByName}>Sort by name</button>
         <button onClick={this.sortByPopularity}>Sort by popularity</button>
 
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <table>
-            <thead>
-              <tr>
-                <th>Picture</th>
-                <th>Name</th>
-                <th>Popularity</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {this.state.contacts.map(contact => {
-                return (
-                  <tr key={contact.id}>
-                    <td>
-                      <img
-                        src={contact.pictureUrl}
-                        height='100px'
-                        alt={contact.name}
-                      />
-                    </td>
-                    <td>{contact.name}</td>
-                    <td>{contact.popularity.toFixed(2)}</td>
-                    <td>
-                      <button onClick={() => { this.deleteContact(contact.id) }}>
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div >
+        <ContactList contacts={this.state.contacts} />
 
       </div>
     );
