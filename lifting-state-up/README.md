@@ -127,3 +127,5 @@ const ContactList = props => {
       <tr key={contact.id}>
       //
 ```
+
+Now SearchField and ContactList share the same state. This shared state has to be managed in a common parent component because SearchField and ContactList are on the same level. This concept of managing / moving the shared state to a common parent component is called 'Lifting the state up'.
